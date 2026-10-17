@@ -125,5 +125,11 @@ pub fn interrupt_nesting_selftest() -> bool {
     let restored = arch::interrupts_enabled() == initial;
     let depth_after_outer = interrupt_depth() == depth_before;
 
-    off_once && off_twice && inner_ok && depth_after_inner && outer_ok && restored && depth_after_outer
+    off_once
+        && off_twice
+        && inner_ok
+        && depth_after_inner
+        && outer_ok
+        && restored
+        && depth_after_outer
 }
