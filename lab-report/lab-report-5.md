@@ -42,7 +42,3 @@ lab-5 check: PASS
 ![Lab 5 双 hart QEMU 运行](images/lab5-2.png)
 
 **图 2**：`make qemu` 下用户程序依次完成复制、brk、栈增长和 mmap/munmap 测试。
-
-## 四、问题与总结
-
-WSL2 下没有 VMware，直接以 `qemu-system-riscv64 -smp 2` 作为虚拟机；双 hart 的节点仓库自检和时钟中断都需要显式同步。最初沿用 Lab 4 把用户栈放在 `0x4000`，9 页 `brk` 增长会与栈相撞，改为 `0x4000_0000` 后堆、mmap 与栈互不干扰。调试时通过逐页 PTE 检查和帧计数，发现并修正了复制接口按字节而用户测试按 `u32` 读取的问题。最终实现把用户地址视为不可信输入，错误路径不 panic、不产生部分副作用。
